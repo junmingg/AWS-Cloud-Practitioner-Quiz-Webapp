@@ -18,7 +18,7 @@ export class ExamLoader {
 		}
 
 		try {
-			const response = await fetch(`/AWS-Certified-Cloud-Practitioner-Notes/practice-exam/${examId}.md`);
+			const response = await fetch(`/practice-exam/${examId}.md`);
 			if (!response.ok) {
 				throw new Error(`Failed to load exam: ${response.status}`);
 			}
