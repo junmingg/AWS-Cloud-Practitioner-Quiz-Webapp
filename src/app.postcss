@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom animations and transitions */
+@layer components {
+	.quiz-transition {
+		@apply transition-all duration-300 ease-in-out;
+	}
+	
+	.quiz-card-hover {
+		@apply hover:scale-[1.02] hover:shadow-lg transition-all duration-200 ease-out;
+	}
+	
+	.question-slide {
+		@apply transform transition-all duration-500 ease-in-out;
+	}
+	
+	.fade-in {
+		animation: fadeIn 0.3s ease-in-out;
+	}
+	
+	.slide-up {
+		animation: slideUp 0.4s ease-out;
+	}
+
+	/* Basic component styles */
+	.btn {
+		@apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+	}
+	
+	.btn-sm {
+		@apply px-3 py-1.5 text-xs;
+	}
+	
+	.btn-lg {
+		@apply px-6 py-3 text-base;
+	}
+	
+	.variant-filled-primary {
+		@apply bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500;
+	}
+	
+	.variant-filled-secondary {
+		@apply bg-secondary-500 text-white hover:bg-secondary-600 focus:ring-secondary-500;
+	}
+	
+	.variant-filled-success {
+		@apply bg-success-500 text-white hover:bg-success-600 focus:ring-success-500;
+	}
+	
+	.variant-filled-warning {
+		@apply bg-warning-500 text-white hover:bg-warning-600 focus:ring-warning-500;
+	}
+	
+	.variant-filled-surface {
+		@apply bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700;
+	}
+	
+	.variant-ghost-surface {
+		@apply text-gray-700 hover:bg-gray-100 focus:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800;
+	}
+	
+	.input {
+		@apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white;
+	}
+	
+	.select {
+		@apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white;
+	}
+	
+	.checkbox {
+		@apply rounded border-gray-300 text-primary-500 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600;
+	}
+	
+	.radio {
+		@apply border-gray-300 text-primary-500 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600;
+	}
+	
+	.label {
+		@apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+	}
+	
+	/* Surface tokens */
+	.bg-surface-50-900-token {
+		@apply bg-gray-50 dark:bg-gray-900;
+	}
+	
+	.bg-surface-100-800-token {
+		@apply bg-gray-100 dark:bg-gray-800;
+	}
+	
+	.bg-surface-200-700-token {
+		@apply bg-gray-200 dark:bg-gray-700;
+	}
+	
+	.text-surface-900-50-token {
+		@apply text-gray-900 dark:text-gray-50;
+	}
+	
+	.text-surface-700-200-token {
+		@apply text-gray-700 dark:text-gray-200;
+	}
+	
+	.text-surface-600-300-token {
+		@apply text-gray-600 dark:text-gray-300;
+	}
+	
+	.border-surface-300-600-token {
+		@apply border-gray-300 dark:border-gray-600;
+	}
+	
+	/* Btn groups */
+	.btn-group {
+		@apply inline-flex rounded-lg shadow-sm;
+	}
+	
+	.btn-group > .btn:first-child {
+		@apply rounded-r-none;
+	}
+	
+	.btn-group > .btn:last-child {
+		@apply rounded-l-none;
+	}
+	
+	.btn-group > .btn:not(:first-child):not(:last-child) {
+		@apply rounded-none;
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
