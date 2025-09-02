@@ -82,7 +82,7 @@
 						<div class="text-sm text-surface-600-300-token">Study Sections</div>
 					</div>
 					<div class="bg-surface-100-800-token rounded-xl p-6 text-center">
-						<div class="text-2xl font-bold text-tertiary-600 dark:text-tertiary-400">{Math.round(totalWords / 1000)}k</div>
+						<div class="text-2xl font-bold text-gray-800 dark:text-gray-100">{Math.round(totalWords / 1000)}k</div>
 						<div class="text-sm text-surface-600-300-token">Total Words</div>
 					</div>
 					<div class="bg-surface-100-800-token rounded-xl p-6 text-center">
