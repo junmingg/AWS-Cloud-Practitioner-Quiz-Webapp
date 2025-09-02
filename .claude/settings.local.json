@@ -12,7 +12,8 @@
       "Bash(npm run test:run:*)",
       "Bash(node:*)",
       "Bash(npm uninstall:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

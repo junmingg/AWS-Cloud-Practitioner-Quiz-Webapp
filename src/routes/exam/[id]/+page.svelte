@@ -193,7 +193,7 @@
 </svelte:head>
 
 {#if $currentExam && $currentQuestion}
-	<div class="h-screen flex overflow-hidden" in:fade={{ duration: 300 }}>
+	<div class="h-full flex overflow-hidden" in:fade={{ duration: 300 }}>
 		<!-- Question Navigation Sidebar -->
 		{#if showSidebar}
 			<div 
@@ -214,7 +214,7 @@
 		<!-- Main Content -->
 		<div class="flex-1 flex flex-col overflow-hidden">
 			<!-- Header -->
-			<header class="bg-surface-100-800-token border-b border-surface-300-600-token px-6 py-4">
+			<header class="bg-surface-100-800-token border-b border-surface-300-600-token px-6 py-3">
 				<div class="flex items-center justify-between">
 					<div class="flex items-center space-x-4">
 						<!-- Sidebar Toggle -->
@@ -316,7 +316,7 @@
 			
 			<!-- Question Content -->
 			<main class="flex-1 overflow-auto">
-				<div class="max-w-4xl mx-auto p-6" in:fly={{ x: 20, duration: 400, easing: quintOut }}>
+				<div class="max-w-4xl mx-auto py-3 px-4" in:fly={{ x: 20, duration: 400, easing: quintOut }}>
 					<Question 
 						question={$currentQuestion}
 						selectedAnswers={currentAnswer}
@@ -329,7 +329,7 @@
 			</main>
 			
 			<!-- Navigation Footer -->
-			<footer class="bg-surface-100-800-token border-t border-surface-300-600-token px-6 py-4">
+			<footer class="bg-surface-100-800-token border-t border-surface-300-600-token px-6 py-3">
 				<div class="flex items-center justify-between">
 					<!-- Previous Button -->
 					<button 
@@ -391,7 +391,7 @@
 	</div>
 {:else}
 	<!-- Loading State -->
-	<div class="h-screen flex items-center justify-center bg-surface-50-900-token">
+	<div class="h-full flex items-center justify-center bg-surface-50-900-token">
 		<div class="text-center">
 			<div class="w-16 h-16 border-4 border-primary-200 border-t-primary-500 rounded-full animate-spin mx-auto mb-4"></div>
 			<h2 class="text-xl font-semibold text-surface-900-50-token mb-2">Loading Exam</h2>

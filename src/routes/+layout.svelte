@@ -5,6 +5,9 @@
 	import { theme } from '$lib/stores/theme';
 	import { preferences } from '$lib/stores/preferences';
 	import Settings from '$lib/components/Settings.svelte';
+	import { fade, fly } from 'svelte/transition';
+	
+	let showAboutModal = false;
 	
 	onMount(() => {
 		// Initialize theme and preferences
@@ -81,6 +84,18 @@
 			</nav>
 			
 			<div class="flex items-center space-x-2">
+				<!-- About Button -->
+				<button
+					on:click={() => showAboutModal = true}
+					class="btn btn-sm variant-soft-surface hover:variant-soft-primary transition-all duration-200 border border-surface-300-600-token"
+					aria-label="About"
+					title="About this app"
+				>
+					<svg class="w-5 h-5 text-gray-700 dark:text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+					</svg>
+				</button>
+				
 				<!-- Theme Toggle -->
 				<button
 					on:click={handleThemeToggle}
@@ -124,6 +139,70 @@
 		</main>
 	</div>
 </div>
+
+<!-- About Modal -->
+{#if showAboutModal}
+	<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" transition:fade on:click={() => showAboutModal = false}>
+		<div 
+			class="bg-surface-100-800-token rounded-xl max-w-md w-full p-6 space-y-4"
+			transition:fly={{ y: 20, duration: 200 }}
+			on:click|stopPropagation
+		>
+			<div class="flex items-center justify-between">
+				<h3 class="text-xl font-bold text-surface-900-50-token">About</h3>
+				<button
+					on:click={() => showAboutModal = false}
+					class="btn btn-sm variant-ghost-surface"
+					aria-label="Close"
+				>
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+					</svg>
+				</button>
+			</div>
+			
+			<div class="space-y-3">
+				<p class="text-surface-700-200-token">
+					AWS Certified Cloud Practitioner Quiz Platform
+				</p>
+				
+				<div class="bg-surface-200-700-token rounded-lg p-4">
+					<h4 class="font-medium text-surface-900-50-token mb-2">Content Attribution</h4>
+					<p class="text-sm text-surface-600-300-token mb-3">
+						Practice exam contents were sourced from:
+					</p>
+					<a 
+						href="https://github.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline text-sm break-all"
+					>
+						https://github.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes
+					</a>
+				</div>
+				
+				<div class="bg-surface-200-700-token rounded-lg p-4">
+					<h4 class="font-medium text-surface-900-50-token mb-2">Source Code</h4>
+					<p class="text-sm text-surface-600-300-token mb-3">
+						Fork or contribute to this project:
+					</p>
+					<a 
+						href="https://github.com/junmingg/AWS-Cloud-Practitioner-Quiz-Webapp"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline text-sm break-all"
+					>
+						https://github.com/junmingg/AWS-Cloud-Practitioner-Quiz-Webapp
+					</a>
+				</div>
+				
+				<p class="text-xs text-gray-600 dark:text-gray-300">
+					Built with SvelteKit and SkeletonUI
+				</p>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <style>
 	:global(html, body) {

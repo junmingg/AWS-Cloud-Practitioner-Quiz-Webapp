@@ -190,9 +190,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- AWS Cloud Practitioner exam content and structure
-- SvelteKit and SkeletonUI communities for excellent documentation
-- Contributors and testers who helped improve the application
+### Content Attribution
+All practice exam questions and study materials are sourced from:
+**[AWS-Certified-Cloud-Practitioner-Notes](https://github.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes)** by [@kananinirav](https://github.com/kananinirav)
+
+This repository contains comprehensive AWS Cloud Practitioner study materials and practice questions that made this quiz platform possible.
+
+### Development Credits
+- **Frontend Interface**: Built with [Claude Code](https://claude.ai/code) - Anthropic's AI-powered coding assistant
+- **Framework & Libraries**: SvelteKit, SkeletonUI, and Tailwind CSS communities for excellent documentation
+- **Community**: Contributors and testers who helped improve the application
 
 ## 📞 Support
 

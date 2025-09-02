@@ -141,7 +141,7 @@
 		const status = getOptionStatus(option);
 		const isSelected = selectedAnswers.includes(option.id);
 		
-		let classes = 'border-2 rounded-xl p-4 quiz-transition cursor-pointer select-none ';
+		let classes = 'border-2 rounded-xl p-3 quiz-transition cursor-pointer select-none ';
 		
 		if (showResults) {
 			switch (status) {
@@ -169,11 +169,11 @@
 	$: isComplete = isMultipleChoice ? selectedAnswers.length === maxSelections : isAnswered;
 </script>
 
-<div class="space-y-6" class:opacity-75={showResults && !isAnswered}>
+<div class="space-y-3" class:opacity-75={showResults && !isAnswered}>
 	<!-- Question Header -->
 	<div class="flex items-start justify-between gap-4">
 		<div class="flex-1">
-			<div class="flex items-center gap-3 mb-3">
+			<div class="flex items-center gap-3 mb-1">
 				<span class="inline-flex items-center justify-center w-8 h-8 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-200 rounded-lg font-semibold text-sm">
 					{question.number}
 				</span>
@@ -215,7 +215,7 @@
 	
 	<!-- Selection Progress (for MCMA) -->
 	{#if isMultipleChoice}
-		<div class="bg-surface-100-800-token rounded-lg p-3">
+		<div class="bg-surface-100-800-token rounded-lg py-2 px-3">
 			<div class="flex items-center justify-between text-sm">
 				<span class="text-surface-600-300-token">
 					Selected: {selectedAnswers.length} of {maxSelections}
@@ -235,7 +235,7 @@
 	{/if}
 	
 	<!-- Options -->
-	<div class="space-y-3">
+	<div class="space-y-2">
 		{#each question.options as option, index}
 			{@const isSelected = selectedAnswers.includes(option.id)}
 			{@const isPending = pendingSelections.includes(option.id)}
@@ -326,7 +326,7 @@
 	
 	<!-- Submit Button -->
 	{#if !showResults && !isReviewMode}
-		<div class="mt-4 flex flex-wrap items-center gap-3">
+		<div class="mt-3 flex flex-wrap items-center gap-3">
 			<button
 				class="btn variant-filled-primary"
 				on:click={submitPendingSelections}
@@ -344,7 +344,7 @@
 	<!-- Explanation (shown in results/review mode) -->
 	{#if showResults && question.explanation}
 		<div 
-			class="bg-info-100 dark:bg-info-900/20 border border-info-300 dark:border-info-600 rounded-lg p-4"
+			class="bg-info-100 dark:bg-info-900/20 border border-info-300 dark:border-info-600 rounded-lg p-3"
 			in:fly={{ y: 20, duration: 300, delay: 200 }}
 		>
 			<div class="flex items-start gap-3">
@@ -365,7 +365,7 @@
 	
 	<!-- Answer Status Summary (shown in results) -->
 	{#if showResults}
-		<div class="bg-surface-100-800-token rounded-lg p-4">
+		<div class="bg-surface-100-800-token rounded-lg p-3">
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-3">
 					{#if isAnswered}

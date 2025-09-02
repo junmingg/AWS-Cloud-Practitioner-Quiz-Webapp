@@ -98,7 +98,7 @@
 			<div class="text-xs text-surface-600-300-token space-y-1">
 				<div class="flex items-center space-x-2">
 					<div class="w-2 h-2 bg-success-500 rounded-full"></div>
-					<span>Keys work when not typing in text fields</span>
+					<span>Click background if hotkeys don't work</span>
 				</div>
 				<div class="flex items-center space-x-2">
 					<div class="w-2 h-2 bg-primary-500 rounded-full"></div>
