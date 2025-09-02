@@ -30,7 +30,7 @@
 	$: hasPendingChanges = JSON.stringify(pendingSelections.sort()) !== JSON.stringify(selectedAnswers.sort());
 	
 	function handleOptionChange(optionId: string, checked: boolean) {
-		let newSelection = [...selectedAnswers];
+		let newSelection = [...pendingSelections];
 		
 		if (isMultipleChoice) {
 			if (checked) {
@@ -47,13 +47,8 @@
 			newSelection = checked ? [optionId] : [];
 		}
 		
-		// Update pending selections to match the new selection (for mouse/touch interactions)
+		// Update pending selections only - don't submit yet
 		pendingSelections = [...newSelection];
-		
-		dispatch('answer', {
-			questionId: question.id,
-			selectedAnswers: newSelection
-		});
 	}
 	
 	function toggleFlag() {
@@ -197,36 +192,12 @@
 				>
 					{isMultipleChoice ? 'Select TWO' : 'Select ONE'}
 				</span>
-				
-				<!-- Completion Indicator -->
-				{#if isComplete}
-					<div 
-						class="inline-flex items-center justify-center w-5 h-5 bg-success-500 rounded-full"
-						in:scale={{ duration: 200, easing: quintOut }}
-					>
-						<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-						</svg>
-					</div>
-				{/if}
 			</div>
 			
 			<h2 class="text-lg font-medium text-surface-900-50-token leading-relaxed">
 				{question.text}
 			</h2>
 			
-			
-			<!-- Pending Changes Notice -->
-			{#if hasPendingChanges && !showResults && !isReviewMode}
-				<div class="mt-3 p-2 bg-warning-100 dark:bg-warning-900 border border-warning-300 dark:border-warning-600 rounded-lg">
-					<div class="flex items-center text-xs text-warning-800 dark:text-warning-200">
-						<svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.314 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-						</svg>
-						You have unsaved changes. Press <kbd class="kbd kbd-xs mx-1 bg-warning-200 dark:bg-warning-800">Space</kbd> to submit your answer.
-					</div>
-				</div>
-			{/if}
 		</div>
 		
 		<!-- Flag Button -->
@@ -352,6 +323,23 @@
 			</div>
 		{/each}
 	</div>
+	
+	<!-- Submit Button -->
+	{#if !showResults && !isReviewMode}
+		<div class="mt-4 flex flex-wrap items-center gap-3">
+			<button
+				class="btn variant-filled-primary"
+				on:click={submitPendingSelections}
+				disabled={pendingSelections.length === 0}
+			>
+				Submit
+			</button>
+			
+			<div class="text-sm text-surface-600-300-token">
+				Or press <kbd class="kbd kbd-xs bg-surface-200-700-token">Space</kbd> to submit
+			</div>
+		</div>
+	{/if}
 	
 	<!-- Explanation (shown in results/review mode) -->
 	{#if showResults && question.explanation}

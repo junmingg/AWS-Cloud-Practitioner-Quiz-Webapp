@@ -190,7 +190,7 @@ function countWords(text: string): number {
 
 export async function loadSections(): Promise<Section[]> {
 	const sections: Section[] = [];
-	const baseUrl = '/AWS-Certified-Cloud-Practitioner-Notes/sections';
+	const baseUrl = '/sections';
 	
 	// List of all section filenames
 	const filenames = Object.keys(SECTION_TITLES);
@@ -242,7 +242,7 @@ export async function loadSections(): Promise<Section[]> {
 }
 
 export async function loadSection(id: string): Promise<Section | null> {
-	const baseUrl = '/AWS-Certified-Cloud-Practitioner-Notes/sections';
+	const baseUrl = '/sections';
 	const filename = `${id}.md`;
 	
 	try {
