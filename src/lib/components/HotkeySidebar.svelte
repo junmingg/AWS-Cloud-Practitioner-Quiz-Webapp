@@ -29,7 +29,7 @@
 		<div class="flex-1 overflow-auto p-4 space-y-4">
 			<!-- Answer Selection -->
 			<div>
-				<h4 class="font-medium text-surface-800-200-token mb-3 text-sm">Answer Selection</h4>
+				<h4 class="font-medium text-gray-800 dark:text-gray-100 mb-3 text-sm">Answer Selection</h4>
 				<div class="space-y-2">
 					<div class="flex items-center justify-between">
 						<span class="text-sm text-surface-600-300-token">Select option A</span>
@@ -60,7 +60,7 @@
 			
 			<!-- Navigation -->
 			<div>
-				<h4 class="font-medium text-surface-800-200-token mb-3 text-sm">Navigation</h4>
+				<h4 class="font-medium text-gray-800 dark:text-gray-100 mb-3 text-sm">Navigation</h4>
 				<div class="space-y-2">
 					<div class="flex items-center justify-between">
 						<span class="text-sm text-surface-600-300-token">Previous question</span>
@@ -75,7 +75,7 @@
 			
 			<!-- Actions -->
 			<div>
-				<h4 class="font-medium text-surface-800-200-token mb-3 text-sm">Actions</h4>
+				<h4 class="font-medium text-gray-800 dark:text-gray-100 mb-3 text-sm">Actions</h4>
 				<div class="space-y-2">
 					<div class="flex items-center justify-between">
 						<span class="text-sm text-surface-600-300-token">Flag for review</span>
