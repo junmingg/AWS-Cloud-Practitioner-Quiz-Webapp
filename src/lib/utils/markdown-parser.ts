@@ -87,10 +87,26 @@ export class MarkdownParser {
 		const questionMatch = firstLine.match(/^\d+\.\s(.+)$/);
 		if (!questionMatch) return null;
 		
-		// Clean HTML tags from question text
-		const questionText = questionMatch[1].replace(/<br\s*\/?>/gi, ' ').trim();
+		// Clean HTML tags from question text and handle inline options
+		let questionText = questionMatch[1].replace(/<br\s*\/?>/gi, ' ').trim();
 		const options: Option[] = [];
 		let correctAnswersText = '';
+		
+		// Check if question text has an inline option (e.g., "Question text    - A. Option")
+		const inlineOptionMatch = questionText.match(/^(.+?)\s{2,}-\s([A-E])\.\s(.+)$/);
+		if (inlineOptionMatch) {
+			// Split the inline option from question text
+			questionText = inlineOptionMatch[1].trim();
+			const optionLetter = inlineOptionMatch[2];
+			const optionText = inlineOptionMatch[3];
+			
+			// Add the inline option as the first option
+			options.push({
+				id: `${questionNumber}-${optionLetter}`,
+				letter: optionLetter,
+				text: optionText
+			});
+		}
 		
 		// Extract options and correct answers
 		for (let i = 1; i < lines.length; i++) {
