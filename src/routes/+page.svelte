@@ -4,6 +4,7 @@
 	import { quadOut } from 'svelte/easing';
 	import { ExamLoader } from '$lib/utils/exam-loader';
 	import { results, resultStats } from '$lib/stores/results';
+	import { StorageManager } from '$lib/utils/storage';
 	import ExamCard from '$lib/components/ExamCard.svelte';
 	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import type { ExamMetadata } from '$lib/types';
@@ -15,8 +16,23 @@
 	let searchTerm = '';
 	let viewMode: 'grid' | 'list' = 'grid';
 	let sortBy: 'title' | 'bestScore' | 'attempts' | 'lastAttempted' = 'title';
-	let filterByCompletion: 'all' | 'completed' | 'incomplete' = 'all';
+	let filterByCompletion: 'all' | 'completed' | 'failed' | 'in-progress' | 'not-started' = 'all';
 	
+	// Helper function to determine exam status
+	function getExamStatus(exam: ExamMetadata): 'passed' | 'failed' | 'in-progress' | 'not-started' {
+		if (typeof window === 'undefined') return 'not-started';
+		
+		const hasActiveQuizState = (() => {
+			const quizState = StorageManager.loadQuizState(exam.id);
+			return quizState && !quizState.submitted;
+		})();
+		
+		if (exam.bestScore && exam.bestScore >= 70) return 'passed';
+		if (hasActiveQuizState) return 'in-progress';
+		if (exam.attempts > 0 && exam.bestScore !== undefined && exam.bestScore < 70) return 'failed';
+		return 'not-started';
+	}
+
 	// Search and filter functionality
 	$: {
 		filteredExams = examMetadata
@@ -26,12 +42,19 @@
 					exam.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
 					exam.id.toLowerCase().includes(searchTerm.toLowerCase());
 				
-				// Completion filter
-				const matchesCompletion = filterByCompletion === 'all' ||
-					(filterByCompletion === 'completed' && exam.bestScore && exam.bestScore >= 70) ||
-					(filterByCompletion === 'incomplete' && (!exam.bestScore || exam.bestScore < 70));
+				// Status filter
+				if (filterByCompletion === 'all') {
+					return matchesSearch;
+				}
 				
-				return matchesSearch && matchesCompletion;
+				const status = getExamStatus(exam);
+				const matchesStatus = 
+					(filterByCompletion === 'completed' && status === 'passed') ||
+					(filterByCompletion === 'failed' && status === 'failed') ||
+					(filterByCompletion === 'in-progress' && status === 'in-progress') ||
+					(filterByCompletion === 'not-started' && status === 'not-started');
+				
+				return matchesSearch && matchesStatus;
 			})
 			.sort((a, b) => {
 				switch (sortBy) {
@@ -142,8 +165,10 @@
 							</label>
 							<select class="select" bind:value={filterByCompletion}>
 								<option value="all">All Exams</option>
-								<option value="completed">Completed</option>
-								<option value="incomplete">Incomplete</option>
+								<option value="completed">Passed</option>
+								<option value="failed">Failed</option>
+								<option value="in-progress">In Progress</option>
+								<option value="not-started">Not Started</option>
 							</select>
 						</div>
 						

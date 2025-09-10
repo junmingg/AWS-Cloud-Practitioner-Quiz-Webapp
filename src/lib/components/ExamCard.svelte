@@ -2,14 +2,26 @@
 	import { goto } from '$app/navigation';
 	import { fade } from 'svelte/transition';
 	import ProgressBar from './ProgressBar.svelte';
+	import { StorageManager } from '$lib/utils/storage';
 	import type { ExamMetadata } from '$lib/types';
 	
 	export let exam: ExamMetadata;
 	export let viewMode: 'grid' | 'list' = 'grid';
 	
-	$: completionProgress = exam.bestScore ? Math.min(exam.bestScore, 100) : 0;
-	$: isPassed = exam.bestScore && exam.bestScore >= 70;
-	$: isInProgress = exam.attempts > 0 && (!exam.bestScore || exam.bestScore < 70);
+	$: completionProgress = exam.bestScore !== undefined && exam.bestScore !== null ? Math.min(exam.bestScore, 100) : 0;
+	$: isPassed = exam.bestScore !== undefined && exam.bestScore !== null && exam.bestScore >= 70;
+	
+	// Check for active quiz state to determine if truly in progress
+	$: hasActiveQuizState = (() => {
+		if (typeof window === 'undefined') return false;
+		const quizState = StorageManager.loadQuizState(exam.id);
+		return quizState && !quizState.submitted;
+	})();
+	
+	// Enhanced status logic
+	$: isFailed = exam.attempts > 0 && exam.bestScore !== undefined && exam.bestScore < 70 && !hasActiveQuizState;
+	$: isInProgress = hasActiveQuizState;
+	$: isNotStarted = exam.attempts === 0 && !hasActiveQuizState;
 	
 	function startExam() {
 		goto(`/exam/${exam.id}/mode`);
@@ -33,7 +45,7 @@
 	}
 	
 	function getBestScoreVariant(): 'primary' | 'secondary' | 'tertiary' | 'warning' | 'error' {
-		if (!exam.bestScore) return 'tertiary';
+		if (exam.bestScore === undefined || exam.bestScore === null) return 'tertiary';
 		if (exam.bestScore >= 90) return 'primary';
 		if (exam.bestScore >= 80) return 'secondary';
 		if (exam.bestScore >= 70) return 'tertiary';
@@ -51,6 +63,11 @@
 			return {
 				text: 'In Progress',
 				classes: 'bg-warning-500/20 text-warning-700 dark:text-warning-300 border-warning-500/30'
+			};
+		} else if (isFailed) {
+			return {
+				text: 'Failed',
+				classes: 'bg-error-500/20 text-error-700 dark:text-error-300 border-error-500/30'
 			};
 		} else {
 			return {
@@ -91,7 +108,7 @@
 			</div>
 			
 			<!-- Progress -->
-			{#if exam.bestScore}
+			{#if exam.bestScore !== undefined && exam.bestScore !== null}
 				<div class="mb-4">
 					<ProgressBar 
 						value={completionProgress}
@@ -136,7 +153,7 @@
 				class="btn variant-filled-primary w-full quiz-transition"
 				on:click|stopPropagation={startExam}
 			>
-				{exam.attempts > 0 ? 'Continue' : 'Start Exam'}
+				{isInProgress ? 'Continue' : (exam.attempts > 0 ? 'Retake' : 'Start Exam')}
 				<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
 				</svg>
@@ -173,7 +190,7 @@
 					</div>
 					
 					<!-- Progress Bar (List view) -->
-					{#if exam.bestScore}
+					{#if exam.bestScore !== undefined && exam.bestScore !== null}
 						<div class="w-32">
 							<ProgressBar 
 								value={completionProgress}
@@ -200,7 +217,7 @@
 					class="btn variant-filled-primary quiz-transition"
 					on:click|stopPropagation={startExam}
 				>
-					{exam.attempts > 0 ? 'Continue' : 'Start Exam'}
+					{isInProgress ? 'Continue' : (exam.attempts > 0 ? 'Retake' : 'Start Exam')}
 					<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
 					</svg>

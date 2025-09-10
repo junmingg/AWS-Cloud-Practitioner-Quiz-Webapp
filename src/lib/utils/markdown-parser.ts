@@ -87,7 +87,8 @@ export class MarkdownParser {
 		const questionMatch = firstLine.match(/^\d+\.\s(.+)$/);
 		if (!questionMatch) return null;
 		
-		const questionText = questionMatch[1];
+		// Clean HTML tags from question text
+		const questionText = questionMatch[1].replace(/<br\s*\/?>/gi, ' ').trim();
 		const options: Option[] = [];
 		let correctAnswersText = '';
 		
@@ -116,11 +117,20 @@ export class MarkdownParser {
 		
 		if (options.length === 0 || !correctAnswersText) return null;
 		
-		// Parse correct answers
-		const correctAnswerLetters = correctAnswersText
-			.split(/[,\s]+/)
-			.map(s => s.trim())
-			.filter(s => /^[A-E]$/.test(s));
+		// Parse correct answers - handle both "A, B" and "AB" formats
+		let correctAnswerLetters: string[];
+		if (correctAnswersText.includes(',') || correctAnswersText.includes(' ')) {
+			// Has separators (commas or spaces), use split logic
+			correctAnswerLetters = correctAnswersText
+				.split(/[,\s]+/)
+				.map(s => s.trim())
+				.filter(s => /^[A-E]$/.test(s));
+		} else {
+			// No separators, split each character for formats like "AC", "BCD"
+			correctAnswerLetters = correctAnswersText
+				.split('')
+				.filter(s => /^[A-E]$/.test(s));
+		}
 		
 		const correctAnswers = correctAnswerLetters.map(letter => 
 			options.find(opt => opt.letter === letter)?.id || ''
