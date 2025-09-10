@@ -44,13 +44,10 @@
 		}
 	}
 	
-	function getBestScoreVariant(): 'primary' | 'secondary' | 'tertiary' | 'warning' | 'error' {
-		if (exam.bestScore === undefined || exam.bestScore === null) return 'tertiary';
-		if (exam.bestScore >= 90) return 'primary';
-		if (exam.bestScore >= 80) return 'secondary';
-		if (exam.bestScore >= 70) return 'tertiary';
-		if (exam.bestScore >= 60) return 'warning';
-		return 'error';
+	function getBestScoreVariant(): 'primary' | 'error' {
+		if (exam.bestScore === undefined || exam.bestScore === null) return 'primary';
+		// Simple: Blue for pass (≥70%), Red for fail (<70%)
+		return exam.bestScore >= 70 ? 'primary' : 'error';
 	}
 	
 	function getStatusBadge(): { text: string; classes: string } {
@@ -126,7 +123,7 @@
 			<div class="grid grid-cols-2 gap-4 text-sm">
 				<div class="text-center">
 					<div class="font-semibold text-surface-900-50-token">
-						{exam.bestScore ? `${Math.round(exam.bestScore)}%` : '—'}
+						{exam.bestScore !== undefined && exam.bestScore !== null ? `${Math.round(exam.bestScore)}%` : '—'}
 					</div>
 					<div class="text-surface-600-300-token text-xs">Best Score</div>
 				</div>

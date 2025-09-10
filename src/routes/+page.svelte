@@ -27,7 +27,7 @@
 			return quizState && !quizState.submitted;
 		})();
 		
-		if (exam.bestScore && exam.bestScore >= 70) return 'passed';
+		if (exam.bestScore !== undefined && exam.bestScore !== null && exam.bestScore >= 70) return 'passed';
 		if (hasActiveQuizState) return 'in-progress';
 		if (exam.attempts > 0 && exam.bestScore !== undefined && exam.bestScore < 70) return 'failed';
 		return 'not-started';

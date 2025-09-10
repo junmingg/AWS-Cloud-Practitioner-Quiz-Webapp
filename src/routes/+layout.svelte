@@ -5,6 +5,7 @@
 	import { theme } from '$lib/stores/theme';
 	import { preferences } from '$lib/stores/preferences';
 	import Settings from '$lib/components/Settings.svelte';
+	import StorageDiagnostic from '$lib/components/StorageDiagnostic.svelte';
 	import { fade, fly } from 'svelte/transition';
 	
 	let showAboutModal = false;
@@ -202,6 +203,11 @@
 			</div>
 		</div>
 	</div>
+{/if}
+
+<!-- Debug Component - only in development -->
+{#if import.meta.env.DEV}
+	<StorageDiagnostic />
 {/if}
 
 <style>
